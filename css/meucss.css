@@ -1,0 +1,46 @@
+
+body{
+    background-color: #eeeeee;
+}
+
+.login{
+    background-color: white;
+    min-height: 500px;
+}
+
+/* invalid color */
+.input-field input[type=text].invalid {
+    border-bottom: 1px solid red;
+    box-shadow: 0 1px 0 0 #000;
+}
+
+.input-field input[type=password].invalid {
+    border-bottom: 1px solid red;
+    box-shadow: 0 1px 0 0 #000;
+}
+
+#btn_login{
+    font-size: 1.5em;
+}
+
+.hidden{
+    display: none;
+}
+.show{
+    display: block;
+}
+
+#erro{
+    color: red;
+}
+
+.sidenav .user-view .circle {
+    height: 170px;
+    width: 170px;
+}
+
+.content{
+    margin-left: 460px;
+    margin-top: 50px;
+    background-color: white;
+}
