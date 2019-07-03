@@ -14,8 +14,14 @@
 
         public function update() {
             
+            echo "entra";
             
-            
+        }
+
+        public function info($cpf) {
+            $funcionario = new Funcionario();
+            $_REQUEST['funcionario'] = $funcionario->info($cpf);
+            require_once '../view/editar-funcionario.php';
         }
     }
 ?>

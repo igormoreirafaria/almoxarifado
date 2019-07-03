@@ -63,7 +63,7 @@ class Funcionario {
     mysqli_query($link, $sql);
   }
       
-  public function update($cpf) {
+  public function editar($cpf) {
   // logica para atualizar cliente no banco
     require_once('db.class.php');
     $objDb = new db();
@@ -85,10 +85,8 @@ class Funcionario {
     $objDb = new db();
     $link = $objDb->conecta_mysql();
 
+    $sql = " SELECT f.cpf, f.nome as fnome, f.login, f.senha, s.nome as snome FROM FUNCIONARIOS as f JOIN SETOR AS s on f.setor = s.id";
     
-    $sql = " SELECT f.cpf, f.nome as fnome, f.login, f.senha, s.nome as snome FROM FUNCIONARIOS as f JOIN SETOR AS s on f.setor = s.id;";
-    
-    #$sql = " SELECT nome FROM SETOR WHERE cpf = $setor ";
     $resultado = mysqli_query($link, $sql);
     
     if($resultado){
@@ -103,6 +101,30 @@ class Funcionario {
       return $funcionarios;
       
   
+    } else {
+      echo 'Erro ao executar a query';
+    }
+  }
+
+  public function info($cpf) {
+    // logica para recuperar dados de um funcionario
+
+    require_once('db.class.php');
+    $objDb = new db();
+    $link = $objDb->conecta_mysql();
+
+    $sql = " SELECT f.cpf, f.nome as fnome, f.login, f.senha, s.nome as snome FROM FUNCIONARIOS as f JOIN SETOR AS s on f.setor = s.id WHERE f.cpf = $cpf ";
+
+    $resultado = mysqli_query($link, $sql);
+
+    if($resultado){
+      
+      $registro = mysqli_fetch_array($resultado, MYSQLI_ASSOC);
+      $func = new Funcionario();
+      $func->construtor($registro['cpf'], $registro['fnome'], $registro['login'], $registro['senha'], $registro['snome']);
+      
+      return $func;
+    
     } else {
       echo 'Erro ao executar a query';
     }
