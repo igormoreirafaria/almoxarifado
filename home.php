@@ -54,10 +54,25 @@
         <?php include("componentes/sidenav.html")?>
         
 
-        <div class="container content">
+        <div class="container z-depth-3 content grande" >
+        
                 <div class="row">
                     <div class="col s6 offset-s3" style="text-align: center">
                         <h3>Bem Vindo ao Sistema do Almoxarifado.</h3>
+                    </div>
+                </div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row">
+                    <div class="col s2 offset-s3">
+                            <a class="color-white" href="/almoxarifado/view/listar-funcionarios.html">
+                                <div class="custom-but z-depth-3 center light-blue darken-3">
+                                    <i class="material-icons large">person</i>
+                                    <br>
+                                    <p>Funcionários</p>
+                                </div>
+                            </a>
                     </div>
                 </div>
         </div>

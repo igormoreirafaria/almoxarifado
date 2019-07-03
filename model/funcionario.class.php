@@ -87,7 +87,7 @@ class Funcionario {
     $sql = "UPDATE FUNCIONARIOS SET cpf = '$cpf', nome = '$nome', login = '$login', senha = '$senha', setor = $setor WHERE cpf = '$cpfAtual'";
     $result = mysqli_query($link, $sql);
     if($result){
-      return "Sucesso";
+      echo "Sucesso";
     }else{
       echo 'Erro ao executar a query';
     }

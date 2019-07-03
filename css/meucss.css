@@ -47,3 +47,13 @@ body{
 .table{
     margin: 1em 1em;
 }
+.color-white{
+    color: white;
+}
+
+.custom-but{
+    height: 150px;
+}
+.grande{
+    height: 500px;
+}
