@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Novo Funcionário | Almoxarifado</title>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="/almoxarifado/css/materialize.min.css"  media="screen,projection"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link type="text/css" rel="stylesheet" href="/almoxarifado/css/meucss.css"/>
+
+
+        <script>
+        
+            $(document).ready(function(){
+                
+                $('#sidenav').load("../componentes/sidenav.html");
+                $.ajax({
+                    url: '../handler/setorHandler.php',
+                    method: 'post',
+                    data:{action: 'listarSetor'},
+                    success: function(setores) {
+                        setores = JSON.parse(setores);
+                        $("#select").append(`<option value="" disabled selected>Escolha uma opção</option>`);
+                        for(s of setores){
+                            $("#select").append(`<option value='${s.id}'>${s.nome}</option>`);  
+                        }
+                        $('select').formSelect();
+                    }
+                });
+
+                $("#salvar").click(function(){
+
+
+
+                    let cpf = $('#cpf').val();
+                    let nome = $('#nome').val();
+                    let login = $('#login').val();
+                    let senha = $('#senha').val();
+                    let setor = $('#select').val();
+                    if(cpf == ''){
+                        $('#cpf').addClass('invalid');
+                    }else
+                    if(nome == ''){
+                        $('#nome').addClass('invalid');
+                    }else
+                    if(login == ''){
+                        $('#login').addClass('invalid');
+                    }else
+                    if(senha == ''){
+                        $('#senha').addClass('invalid');
+                    }else if(setor == ''){
+                        $('#senha').addClass('invalid');
+                    
+                    }else{
+                        $.ajax({
+                            url: '../handler/funcionarioHandler.php',
+                            method: 'post',
+                            data:{
+                                action: 'create',
+                                cpf: cpf,
+                                nome: nome,
+                                login: login,
+                                senha: senha,
+                                setor: parseInt(setor)
+                            },
+                            success: function(data) {
+                                location = `/almoxarifado/view/editar-funcionario.html?cpf=${cpf}`;
+                            }
+                        });
+                    }
+
+
+                    })
+
+            });
+        </script>
+
+    </head>
+
+    <body>
+        <div id="sidenav"></div>
+
+        <div class="container content z-depth-3">
+                <div class="row">
+                    <div class="col s6">
+                        <h4>Novo Funcionário</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s1">
+                        <a class="waves-effect waves-light btn" id="salvar">Salvar</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="cpf" type="text" class="validate" value="">
+                        <label for="cpf">CPF</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="nome" type="text" class="validate" value="">
+                        <label for="nome">Nome</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="login" type="text" class="validate" value="">
+                        <label for="login">Login</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="senha" type="password" class="validate" value="">
+                        <label for="senha">Senha</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s4">
+                        <select id="select">
+                        </select>
+                        <label>Setor</label>
+                    </div>
+                </div>
+            </div>
+
+
+
+        <!--JavaScript at end of body for optimized loading-->
+        <script type="text/javascript" src="/almoxarifado/js/materialize.min.js"></script>
+    </body>
+</html>

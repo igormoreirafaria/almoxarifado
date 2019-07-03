@@ -38,5 +38,16 @@
             $func = $funcionario->validaLogin();
             echo json_encode($func);
         }
+        public function delete($cpf) {
+            $funcionario = new Funcionario();
+            $func = $funcionario->remove($cpf);
+            echo json_encode($func);
+        }
+        public function create($cpf, $nome, $login, $senha, $setor) {
+            $funcionario = new Funcionario();
+            $funcionario->construtor($cpf, $nome, $login, $senha, $setor);
+            $func = $funcionario->save();
+            echo json_encode($func); 
+        }
     }
 ?>

@@ -22,7 +22,12 @@
             case 'atualizaFuncionario' : 
                 atualizaFuncionario($_POST['cpfAtual'], $_POST['cpf'], $_POST['nome'], $_POST['login'], $_POST['senha'], $_POST['setor']);
                 break;
-            
+            case 'delete' : 
+                delete();
+                break;
+            case 'create' : 
+                create($_POST['cpf'], $_POST['nome'], $_POST['login'], $_POST['senha'], $_POST['setor']);
+                break;     
         }
     }
 
@@ -44,5 +49,15 @@
         
         $obj = new FuncionarioController();
         return $obj->atualiza($cpfAtual, $cpf, $nome, $login, $senha, $setor);
+    }
+    function delete(){
+        
+        $obj = new FuncionarioController();
+        return $obj->delete($_POST['cpf']);
+    }
+    function create($cpf, $nome, $login, $senha, $setor){
+        
+        $obj = new FuncionarioController();
+        return $obj->create($cpf, $nome, $login, $senha, $setor);
     }
 ?>
