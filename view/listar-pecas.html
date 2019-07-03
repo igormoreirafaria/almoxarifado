@@ -34,13 +34,31 @@
                        //         setores = JSON.parse(setores);
                        //         let setor = 0;
                                for(p of Pecas){
-                                $("#result").append(`<tr>
-                                    <td>${p.id}</td>
-                                    <td>${p.upc}</td>
-                                    <td>${p.descricao}</td>
-                                    <td><a href="editar-pecas.html?cpf=${p.id}"><i class="material-icons">edit</i></a></td>
-                                </tr>`);
-                               }
+                                    $("#result").append(`<tr>
+                                        <td>${p.id}</td>
+                                        <td>${p.upc}</td>
+                                        <td>${p.descricao}</td>
+                                        <td><a href="editar-pecas.html?id=${p.id}"><i class="material-icons">edit</i></a>
+                                            <a href="#${p.id}" class="delete"><i class="material-icons">delete</i></a></td>
+                                        
+                                        </tr>`
+                                    );
+                                    $("#result .delete").last().click(function (ev) {
+                                        if(confirm("Deseja realmente apagar?")){
+                                            $.ajax({
+                                                url: '../handler/pecaHandler.php',
+                                                method: 'post',
+                                                data:{action: 'delete',
+                                                    id : $(ev.target).parent().attr('href').split('#')[1]
+                                                },
+                                                success: function(data) {
+                                                    location.reload();
+                                                    
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
                         //    }
                        // });
                     }
@@ -56,14 +74,18 @@
 
         <div id="sidenav"></div>
         <div class="container content z-depth-3">
+            
             <div class="row">
-                <div class="container">
+                <div class="table">
+                    <h3>Listando peças</h3>
+                    <a class="waves-effect waves-light btn" href="/almoxarifado/view/nova-peca.html">Nova peça</a>
                     <table>
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>UPC</th>
                                 <th>DESCRIÇÃO</th>
+                                <th>AÇÕES</th>
                             </tr>
                         </thead>
                         <tbody id="result">

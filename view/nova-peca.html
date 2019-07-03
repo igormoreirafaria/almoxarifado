@@ -2,7 +2,7 @@
 <html lang="pt-br">
     <head>
         <meta charset="utf-8">
-        <title>Editar Peças | Almoxarifado</title>
+        <title>Nova Peça | Almoxarifado</title>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
@@ -11,44 +11,15 @@
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link type="text/css" rel="stylesheet" href="/almoxarifado/css/meucss.css"/>
+
+
         <script>
+        
             $(document).ready(function(){
-
                 $('#sidenav').load("../componentes/sidenav.html");
-                
-                query = {}
-                if (location.search != ''){
-                    query = location.search.replace('?', '').split('&').reduce((obj, str) => {
-                        obj[str.split('=')[0]] = decodeURIComponent((str.split('=')[1]).replace(/\+/g, '%20'));
-                        return obj;
-                    }, {});                    
-                }
-                let setor = 0;
-
-
-                
-                $.ajax({
-                    url: '../handler/pecaHandler.php',
-                    method: 'post',
-                    data:{action: 'infopeca', id: query.id},
-                    success: function(peca) {
-                        peca = JSON.parse(peca);
-
-                        
-                        
-                        $('#id').val(peca.id);
-                        $('#upc').val(peca.upc);
-                        $('#descricao').val(peca.descricao);
-                        
-                        
-                    }
-                });
-    
-
-
                 $("#salvar").click(function(){
 
-
+                    alert('asas');
 
                     let id = $('#id').val();
                     let upc = $('#upc').val();
@@ -66,8 +37,7 @@
                             url: '../handler/pecaHandler.php',
                             method: 'post',
                             data:{
-                                action: 'atualizapeca',
-                                idAtual: query.id,
+                                action: 'create',
                                 id: id,
                                 upc: upc,
                                 descricao: descricao,
@@ -79,47 +49,47 @@
                     }
 
 
-                })
-                
+                    });
+
             });
-        
-        
         </script>
+
     </head>
 
     <body>
-
-
-
         <div id="sidenav"></div>
+
         <div class="container content z-depth-3">
-            <div class="row">
-                <div class="col s6">
-                    <h4>Editando dados de <span id="nomeTitulo"></span>  </h4>
+                <div class="row">
+                    <div class="col s6">
+                        <h4>Nova Peça</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s1">
+                        <a class="waves-effect waves-light btn" id="salvar">Salvar</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="id" type="text" class="validate" value="">
+                        <label for="id">ID</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="upc" type="text" class="validate" value="">
+                        <label for="upc">UPC</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="descricao" type="text" class="validate" value="">
+                        <label for="descricao">DESCRIÇÃO</label>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col s1">
-                    <a class="waves-effect waves-light btn" id="salvar">Salvar</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <input id="id" type="text" class="validate" value="">
-                    <label for="id">ID</label>
-                </div>
-                <div class="input-field col s6">
-                    <input id="upc" type="text" class="validate" value="">
-                    <label for="upc">UPC</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <input id="descricao" type="text" class="validate" value="">
-                    <label for="descricao">DESCRICAO</label>
-                </div>
-            </div>
-        </div>
+
+
+
         <!--JavaScript at end of body for optimized loading-->
         <script type="text/javascript" src="/almoxarifado/js/materialize.min.js"></script>
     </body>
