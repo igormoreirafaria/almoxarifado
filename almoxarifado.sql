@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jul 02, 2019 at 03:56 PM
--- Server version: 5.7.26-0ubuntu0.19.04.1
--- PHP Version: 7.2.19-0ubuntu0.19.04.1
+-- Host: 127.0.0.1
+-- Tempo de geração: 03/07/2019 às 23:15
+-- Versão do servidor: 10.1.38-MariaDB-0+deb9u1
+-- Versão do PHP: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `almoxarifado`
+-- Banco de dados: `almoxarifado`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `CONTEM`
+-- Estrutura para tabela `CONTEM`
 --
 
 CREATE TABLE `CONTEM` (
@@ -35,7 +37,7 @@ CREATE TABLE `CONTEM` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `CORREDOR`
+-- Estrutura para tabela `CORREDOR`
 --
 
 CREATE TABLE `CORREDOR` (
@@ -43,7 +45,7 @@ CREATE TABLE `CORREDOR` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `CORREDOR`
+-- Despejando dados para a tabela `CORREDOR`
 --
 
 INSERT INTO `CORREDOR` (`id`) VALUES
@@ -54,7 +56,7 @@ INSERT INTO `CORREDOR` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `FUNCIONARIOS`
+-- Estrutura para tabela `FUNCIONARIOS`
 --
 
 CREATE TABLE `FUNCIONARIOS` (
@@ -66,7 +68,7 @@ CREATE TABLE `FUNCIONARIOS` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `FUNCIONARIOS`
+-- Despejando dados para a tabela `FUNCIONARIOS`
 --
 
 INSERT INTO `FUNCIONARIOS` (`cpf`, `nome`, `login`, `senha`, `setor`) VALUES
@@ -79,7 +81,7 @@ INSERT INTO `FUNCIONARIOS` (`cpf`, `nome`, `login`, `senha`, `setor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `PECAS`
+-- Estrutura para tabela `PECAS`
 --
 
 CREATE TABLE `PECAS` (
@@ -88,10 +90,27 @@ CREATE TABLE `PECAS` (
   `descricao` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Despejando dados para a tabela `PECAS`
+--
+
+INSERT INTO `PECAS` (`id`, `upc`, `descricao`) VALUES
+(1, 'BRC001', 'Broca de videa n5'),
+(2, 'PAR001', 'Parafuso com bucha 8'),
+(3, 'ROS001', 'Rosca sextavada 12'),
+(4, 'PAR002', 'Parafuso para madeira 25mm'),
+(5, 'PAR003', 'Parabolt de aço 10cm'),
+(6, 'QUI001', 'Desmoldante para formas'),
+(7, 'QUI002', 'Aguarraz 1L'),
+(8, 'QUI003', 'Tinner 1L'),
+(9, 'QUI004', 'Aditivo retardador de pega para concreto'),
+(10, 'PIN001', 'Tinta fosca branco gelo 18L'),
+(11, 'LIM001', 'Vassoura Piassava');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `RECEPTACULO`
+-- Estrutura para tabela `RECEPTACULO`
 --
 
 CREATE TABLE `RECEPTACULO` (
@@ -103,7 +122,7 @@ CREATE TABLE `RECEPTACULO` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `SETOR`
+-- Estrutura para tabela `SETOR`
 --
 
 CREATE TABLE `SETOR` (
@@ -113,7 +132,7 @@ CREATE TABLE `SETOR` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `SETOR`
+-- Despejando dados para a tabela `SETOR`
 --
 
 INSERT INTO `SETOR` (`id`, `nome`, `gerente`) VALUES
@@ -122,11 +141,11 @@ INSERT INTO `SETOR` (`id`, `nome`, `gerente`) VALUES
 (3, 'Saída', '45612378978');
 
 --
--- Indexes for dumped tables
+-- Índices de tabelas apagadas
 --
 
 --
--- Indexes for table `CONTEM`
+-- Índices de tabela `CONTEM`
 --
 ALTER TABLE `CONTEM`
   ADD KEY `receptaculo` (`receptaculo`),
@@ -134,56 +153,66 @@ ALTER TABLE `CONTEM`
   ADD KEY `pecas` (`pecas`);
 
 --
--- Indexes for table `CORREDOR`
+-- Índices de tabela `CORREDOR`
 --
 ALTER TABLE `CORREDOR`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`id`);
 
 --
--- Indexes for table `FUNCIONARIOS`
+-- Índices de tabela `FUNCIONARIOS`
 --
 ALTER TABLE `FUNCIONARIOS`
   ADD PRIMARY KEY (`cpf`);
 
 --
--- Indexes for table `PECAS`
+-- Índices de tabela `PECAS`
 --
 ALTER TABLE `PECAS`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `RECEPTACULO`
+-- Índices de tabela `RECEPTACULO`
 --
 ALTER TABLE `RECEPTACULO`
   ADD PRIMARY KEY (`id`),
   ADD KEY `corredor` (`corredor`);
 
 --
--- Indexes for table `SETOR`
+-- Índices de tabela `SETOR`
 --
 ALTER TABLE `SETOR`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de tabelas apagadas
 --
 
 --
--- AUTO_INCREMENT for table `CORREDOR`
+-- AUTO_INCREMENT de tabela `CORREDOR`
 --
 ALTER TABLE `CORREDOR`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `RECEPTACULO`
+-- AUTO_INCREMENT de tabela `PECAS`
+--
+ALTER TABLE `PECAS`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT de tabela `RECEPTACULO`
 --
 ALTER TABLE `RECEPTACULO`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `SETOR`
+-- AUTO_INCREMENT de tabela `SETOR`
 --
 ALTER TABLE `SETOR`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
