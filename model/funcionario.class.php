@@ -85,7 +85,7 @@ class Funcionario {
     $objDb = new db();
     $link = $objDb->conecta_mysql();
 
-    $sql = " SELECT f.cpf, f.nome as fnome, f.login, f.senha, s.nome as snome FROM FUNCIONARIOS as f JOIN SETOR AS s on f.setor = s.id";
+    $sql = " SELECT cpf, nome, login, senha, setor FROM FUNCIONARIOS";
     
     $resultado = mysqli_query($link, $sql);
     
@@ -94,7 +94,7 @@ class Funcionario {
       $funcionarios = [];
       while($registro = mysqli_fetch_array($resultado, MYSQLI_ASSOC)){
         $func = new Funcionario();
-        $func->construtor($registro['cpf'], $registro['fnome'], $registro['login'], $registro['senha'], $registro['snome']);
+        $func->construtor($registro['cpf'], $registro['nome'], $registro['login'], $registro['senha'], $registro['setor']);
         array_push($funcionarios, $func);
       }
       
@@ -104,6 +104,17 @@ class Funcionario {
     } else {
       echo 'Erro ao executar a query';
     }
+  }
+
+  public function jsonSerialize(){
+      return 
+      [
+          'cpf'   => $this->getCpf(),
+          'nome' => $this->getNome(),
+          'login' => $this->getLogin(),
+          'senha' => $this->getSenha(),
+          'setor' => $this->getSetor()
+      ];
   }
 
   public function info($cpf) {

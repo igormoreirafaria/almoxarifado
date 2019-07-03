@@ -50,6 +50,14 @@
         public function remove() {
         // logica para remover setor do banco
         }
+        public function jsonSerialize(){
+            return 
+            [
+                'id'   => $this->getId(),
+                'nome' => $this->getNome(),
+                'gerente' => $this->getGerente(),
+            ];
+        }
             
         public function listAll() {
         // logica para listar toodos os setores do banco

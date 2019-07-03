@@ -3,13 +3,18 @@
     class SetorController {
 
         public function listar() {
+            
             $setor = new Setor();
             
             $setores = $setor->listAll();
             
-            $_REQUEST['setores'] = $setores;
+            $res = [];
+            foreach ($setores as $set) {
+                array_push($res, $set->jsonSerialize());
+            }
 
-            //require_once '../view/editar-funcionario.php';
+            echo json_encode($res);
+
         }
 
         public function update() {
