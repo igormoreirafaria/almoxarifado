@@ -34,32 +34,61 @@ class Peca {
   public function setDescricao($descricao){
     $this->descricao = $descricao;
   }
-
-  public function save() {
-  // logica para salvar cliente no banco
-    require_once('db.class.php');
-    $objDb = new db();
-    $link = $objDb->conecta_mysql();
-
-    
-    $sql = "INSERT INTO PECAS(id, upc, descricao) VALUES($this->id, $this->upc, $this->descricao)";
-    mysqli_query($link, $sql);
-  }
       
-  public function editar($id) {
+  public function editar($idAtual) {
   // logica para atualizar cliente no banco
     require_once('db.class.php');
     $objDb = new db();
     $link = $objDb->conecta_mysql();
+    $id = $this->getId();
+    $upc = $this->getUpc();
+    $descricao = $this->getDescricao();
+
+
 
     
-    $sql = "UPDATE PECAS SET id = $this->id, upc =$this->upc, descricao = $this->descricao WHERE id = $id";
-    mysqli_query($link, $sql);
+    $sql = "UPDATE PECAS SET id = '$id', upc ='$upc', descricao = '$descricao' WHERE id = $idAtual";
+    $result = mysqli_query($link, $sql);
+    if($result){
+      echo "Sucesso";
+    }else{
+      echo "Erro ao executar query";
+    }
 }
-      
-  public function remove() {
-  // logica para remover cliente do banco
+
+  public function remove($id) {
+    // logica para remover peça do banco
+      require_once('db.class.php');
+      $objDb = new db();
+      $link = $objDb->conecta_mysql();
+  
+      $sql = "DELETE FROM `PECAS` WHERE id = $id";
+      $result = mysqli_query($link, $sql);
+      if($result){
+        return "Sucesso";
+      }else{
+        echo 'Erro ao executar a query';
+      }
   }
+
+  public function save() {
+    // logica para salvar peça no banco
+      require_once('db.class.php');
+      $objDb = new db();
+      $link = $objDb->conecta_mysql();
+      $id = $this->getId();
+      $upc = $this->getUpc();
+      $descricao = $this->getDescricao();
+      
+      $sql = "INSERT INTO PECAS(id, upc, descricao) VALUES('$id', '$upc', '$descricao')";
+      $result = mysqli_query($link, $sql);
+
+      if($result){
+        return "Sucesso";
+      }else{
+        echo 'Erro ao executar a query';
+      }
+    }
       
   public function listAll() {
   // logica para listar toodos os clientes do banco
@@ -104,8 +133,8 @@ class Peca {
     require_once('db.class.php');
     $objDb = new db();
     $link = $objDb->conecta_mysql();
-
-    $sql = " SELECT id, upc,descricao FROM PECAS WHERE id=1";
+  
+    $sql = " SELECT id, upc,descricao FROM PECAS WHERE id= $id ";
     //$sql = " SELECT f.id, f.upc as fnome, f.login, f.senha, s.nome as snome FROM PECA as f JOIN SETOR AS s on f.setor = s.id WHERE f.id = $id ";
 
 

@@ -18,17 +18,12 @@
             echo json_encode($res);
 
         }
+        
 
-        public function update() {
-            
-            echo "entra";
-            
-        }
-
-        public function atualiza($idAtual, $upc, $descricao) {
+        public function atualiza($idAtual, $id , $upc, $descricao) {
             $peca = new peca();
             $peca->construtor($id, $upc, $descricao);
-            $func = $peca->editar($idAtual);
+            $func = $peca->editar   ($idAtual);
             echo $func;
             
         }
@@ -40,9 +35,21 @@
         }
 
         public function validaLogin(){
-            $peca = new peca();
+            $peca = new Peca();
             $func = $peca->validaLogin();
             echo json_encode($func);
+        }
+
+        public function delete($id) {
+            $peca = new Peca();
+            $pec = $peca->remove($id);
+            echo json_encode($pec);
+        }
+        public function create($id, $upc, $descricao) {
+            $peca = new Peca();
+            $peca->construtor($id, $upc, $descricao);
+            $pec = $peca->save();
+            echo json_encode($pec); 
         }
     }
 ?>
