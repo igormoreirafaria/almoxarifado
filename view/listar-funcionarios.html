@@ -26,7 +26,7 @@
                     success: function(funcionarios) {
                         funcionarios = JSON.parse(funcionarios);
 
-                        a = $.ajax({
+                        $.ajax({
                             url: '../handler/setorHandler.php',
                             method: 'post',
                             data:{action: 'listarSetor'},
@@ -44,32 +44,27 @@
                                                             <td>${f.nome}</td>
                                                             <td>${setor}</td>
                                                             <td><a href="editar-funcionario.html?cpf=${f.cpf}"><i class="material-icons">edit</i></a>
-                                                                <a href="#${f.cpf}" id="delete"><i class="material-icons">delete</i></a>
+                                                                <a href="#${f.cpf}" class="delete"><i class="material-icons">delete</i></a>
                                                             </td>
                                                             
                                                         </tr>`);
-
-
-                                    
+                                    $("#result .delete").last().click(function (ev) {
+                                        if(confirm("Deseja realmente apagar?")){
+                                            $.ajax({
+                                                url: '../handler/funcionarioHandler.php',
+                                                method: 'post',
+                                                data:{action: 'delete',
+                                                    cpf : $(ev.target).parent().attr('href').split('#')[1]
+                                                },
+                                                success: function(data) {
+                                                    location.reload();
+                                                    
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
                             }
-                        });
-                        $.when(a).done(function () {
-                            
-                            $("#delete").click(function (ev) {
-                                $.ajax({
-                                    url: '../handler/funcionarioHandler.php',
-                                    method: 'post',
-                                    data:{action: 'delete',
-                                        cpf : $(ev.target).parent().attr('href').split('#')[1]
-                                    },
-                                    success: function(data) {
-                                    
-                                    
-                                    }
-                                });
-
-                            });
                         });
                     }
                 });
@@ -85,7 +80,10 @@
         <div id="sidenav"></div>
         <div class="container content z-depth-3">
             <div class="row">
-                <div class="container">
+                
+                <div class="table">
+                    <h3>Listando funcionários</h3>
+                    <a class="waves-effect waves-light btn" href="/almoxarifado/view/novo-funcionario.html">Novo Funcionário</a>
                     <table>
                         <thead>
                             <tr>
@@ -99,6 +97,7 @@
                             
                         </tbody>
                     </table>
+                    
                 </div>
             </div>
         </div>

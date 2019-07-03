@@ -51,20 +51,30 @@ class Funcionario {
   public function setSetor($setor){
     $this->setor = $setor;
   }
-
+ 
   public function save() {
-  // logica para salvar cliente no banco
+  // logica para salvar funcionario no banco
     require_once('db.class.php');
     $objDb = new db();
     $link = $objDb->conecta_mysql();
-
+    $cpf = $this->getCpf();
+    $nome = $this->getNome();
+    $login = $this->getLogin();
+    $senha = $this->getSenha();
+    $setor = intVal($this->getSetor());
     
-    $sql = "INSERT INTO FUNCIONARIOS(cpf, nome, login, senha, setor) VALUES($this->cpf, $this->nome, $this->login, $this->senha, $this->setor)";
-    mysqli_query($link, $sql);
+    $sql = "INSERT INTO FUNCIONARIOS(cpf, nome, login, senha, setor) VALUES('$cpf', '$nome', '$login', '$senha', $setor)";
+    $result = mysqli_query($link, $sql);
+
+    if($result){
+      return "Sucesso";
+    }else{
+      echo 'Erro ao executar a query';
+    }
   }
       
   public function editar($cpfAtual) {
-  // logica para atualizar cliente no banco
+  // logica para atualizar funcionario no banco
     require_once('db.class.php');
     $objDb = new db();
     $link = $objDb->conecta_mysql();
@@ -75,17 +85,32 @@ class Funcionario {
     $setor = intVal($this->getSetor());
     
     $sql = "UPDATE FUNCIONARIOS SET cpf = '$cpf', nome = '$nome', login = '$login', senha = '$senha', setor = $setor WHERE cpf = '$cpfAtual'";
-    echo $sql;
-    mysqli_query($link, $sql);
+    $result = mysqli_query($link, $sql);
+    if($result){
+      return "Sucesso";
+    }else{
+      echo 'Erro ao executar a query';
+    }
     
 }
       
-  public function remove() {
-  // logica para remover cliente do banco
+  public function remove($cpf) {
+  // logica para remover funcionario do banco
+    require_once('db.class.php');
+    $objDb = new db();
+    $link = $objDb->conecta_mysql();
+
+    $sql = "DELETE FROM `FUNCIONARIOS` WHERE cpf = '$cpf'";
+    $result = mysqli_query($link, $sql);
+    if($result){
+      return "Sucesso";
+    }else{
+      echo 'Erro ao executar a query';
+    }
   }
       
   public function listAll() {
-  // logica para listar toodos os clientes do banco
+  // logica para listar toodos os funcionarios do banco
 
     require_once('db.class.php');
     $objDb = new db();
