@@ -6,7 +6,7 @@
     session_start();
 
     if(!isset($_SESSION['cpf'])){
-        header('Location: index.php?erro=1');
+        header('Location: /almoxarifado/index.php?erro=1');
     }
     require_once '../controller/setorController.php';
 
@@ -15,7 +15,7 @@
         $action = $_POST['action'];
         switch($action) {
             case 'listarSetor' : 
-            listarSetor();
+                listarSetor();
                 break;
             
             
@@ -27,7 +27,6 @@
 
     
     function listarSetor(){
-        
         $obj = new SetorController();
         return $obj->listar();
     }

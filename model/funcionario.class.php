@@ -63,15 +63,21 @@ class Funcionario {
     mysqli_query($link, $sql);
   }
       
-  public function editar($cpf) {
+  public function editar($cpfAtual) {
   // logica para atualizar cliente no banco
     require_once('db.class.php');
     $objDb = new db();
     $link = $objDb->conecta_mysql();
-
+    $cpf = $this->getCpf();
+    $nome = $this->getNome();
+    $login = $this->getLogin();
+    $senha = $this->getSenha();
+    $setor = intVal($this->getSetor());
     
-    $sql = "UPDATE FUNCIONARIOS SET cpf = $this->cpf, nome =$this->nome, login = $this->login, senha = $this->senha, setor = $this->setor WHERE cpf = $cpf";
+    $sql = "UPDATE FUNCIONARIOS SET cpf = '$cpf', nome = '$nome', login = '$login', senha = '$senha', setor = $setor WHERE cpf = '$cpfAtual'";
+    echo $sql;
     mysqli_query($link, $sql);
+    
 }
       
   public function remove() {
@@ -124,7 +130,7 @@ class Funcionario {
     $objDb = new db();
     $link = $objDb->conecta_mysql();
 
-    $sql = " SELECT f.cpf, f.nome as fnome, f.login, f.senha, s.nome as snome FROM FUNCIONARIOS as f JOIN SETOR AS s on f.setor = s.id WHERE f.cpf = $cpf ";
+    $sql = " SELECT cpf, nome, login, senha, setor FROM FUNCIONARIOS WHERE cpf = $cpf ";
 
     $resultado = mysqli_query($link, $sql);
 
@@ -132,7 +138,7 @@ class Funcionario {
       
       $registro = mysqli_fetch_array($resultado, MYSQLI_ASSOC);
       $func = new Funcionario();
-      $func->construtor($registro['cpf'], $registro['fnome'], $registro['login'], $registro['senha'], $registro['snome']);
+      $func->construtor($registro['cpf'], $registro['nome'], $registro['login'], $registro['senha'], $registro['setor']);
       
       return $func;
     

@@ -17,9 +17,11 @@
                 listarFuncionario();
                 break;
             case 'infoFuncionario' : 
-            infoFuncionario();
+                infoFuncionario();
                 break;
-            
+            case 'atualizaFuncionario' : 
+                atualizaFuncionario($_POST['cpfAtual'], $_POST['cpf'], $_POST['nome'], $_POST['login'], $_POST['senha'], $_POST['setor']);
+                break;
             
         }
     }
@@ -38,12 +40,9 @@
         $obj = new FuncionarioController();
         return $obj->info($_POST['cpf']);
     }
-
-
-
-    // $objSet = new SetorController();
-    // $objSet->listar();
-
-    // $funcionarios = $_REQUEST['funcionarios'];
-    // $setores = $_REQUEST['setores'];
+    function atualizaFuncionario($cpfAtual, $cpf, $nome, $login, $senha, $setor){
+        
+        $obj = new FuncionarioController();
+        return $obj->atualiza($cpfAtual, $cpf, $nome, $login, $senha, $setor);
+    }
 ?>

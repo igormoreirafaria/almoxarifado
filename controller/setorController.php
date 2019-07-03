@@ -3,7 +3,6 @@
     class SetorController {
 
         public function listar() {
-            
             $setor = new Setor();
             
             $setores = $setor->listAll();
@@ -12,7 +11,7 @@
             foreach ($setores as $set) {
                 array_push($res, $set->jsonSerialize());
             }
-
+            
             echo json_encode($res);
 
         }

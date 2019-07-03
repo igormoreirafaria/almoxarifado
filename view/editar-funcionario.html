@@ -13,7 +13,11 @@
         <link type="text/css" rel="stylesheet" href="/almoxarifado/css/meucss.css"/>
         <script>
             $(document).ready(function(){
-                $('select').formSelect();
+                $('#cpf').trigger('keyup');
+                $('#nome').trigger('keyup');
+                $('#login').trigger('keyup');
+                $('#senha').trigger('keyup');
+                $('#select').trigger('change');
 
                 $('#sidenav').load("../componentes/sidenav.html");
                 
@@ -24,17 +28,89 @@
                         return obj;
                     }, {});                    
                 }
-                let cpf = 
+                let setor = 0;
 
-                $.ajax({
-                    url: '../handler/funcionarioHandler.php',
+                
+
+                a = $.ajax({
+                    url: '../handler/setorHandler.php',
                     method: 'post',
-                    data:{action: 'infoFuncionario', cpf: query.cpf},
-                    success: function(funcionario) {
-
-
+                    data:{action: 'listarSetor'},
+                    success: function(setores) {
+                        setores = JSON.parse(setores);
+                        for(s of setores){
+                            $("#select").append(`<option value='${s.id}'>${s.nome}</option>`);  
+                        }
+                        $('select').formSelect();
                     }
                 });
+
+                $.when(a).done(function() {
+                    $.ajax({
+                        url: '../handler/funcionarioHandler.php',
+                        method: 'post',
+                        data:{action: 'infoFuncionario', cpf: query.cpf},
+                        success: function(funcionario) {
+                            funcionario = JSON.parse(funcionario);
+
+                            
+                            
+                            $('#cpf').val(funcionario.cpf);
+                            $('#nome').val(funcionario.nome);
+                            $('#nomeTitulo').text(funcionario.nome);
+                            $('#login').val(funcionario.login);
+                            $('#senha').val(funcionario.senha);
+                            $('#select').val(funcionario.setor);
+                            $('select').formSelect();
+                            
+                            
+                        }
+                    });
+                });
+
+
+                $("#salvar").click(function(){
+
+
+
+                    let cpf = $('#cpf').val();
+                    let nome = $('#nome').val();
+                    let login = $('#login').val();
+                    let senha = $('#senha').val();
+                    let setor = $('#select').val();
+                    if(cpf == ''){
+                        $('#cpf').addClass('invalid');
+                    }else
+                    if(nome == ''){
+                        $('#nome').addClass('invalid');
+                    }else
+                    if(login == ''){
+                        $('#login').addClass('invalid');
+                    }else
+                    if(senha == ''){
+                        $('#senha').addClass('invalid');
+                    }else{
+                        $.ajax({
+                            url: '../handler/funcionarioHandler.php',
+                            method: 'post',
+                            data:{
+                                action: 'atualizaFuncionario',
+                                cpfAtual: query.cpf,
+                                cpf: cpf,
+                                nome: nome,
+                                login: login,
+                                senha: senha,
+                                setor: parseInt(setor)
+                            },
+                            success: function(data) {
+                                location = `/almoxarifado/view/editar-funcionario.html?cpf=${cpf}`;
+                            }
+                        });
+                    }
+
+
+                })
+                
             });
         
         
@@ -49,41 +125,38 @@
         <div class="container content z-depth-3">
             <div class="row">
                 <div class="col s6">
-                    <h4>Editando dados de <?php echo $func->getNome()?> </h4>
+                    <h4>Editando dados de <span id="nomeTitulo"></span>  </h4>
                 </div>
             </div>
             <div class="row">
                 <div class="col s1">
-                    <button>Salvar</button>
+                    <a class="waves-effect waves-light btn" id="salvar">Salvar</a>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="cpf" type="text" class="validate" value="<?php echo $func->getCpf() ?>">
+                    <input id="cpf" type="text" class="validate" value="">
                     <label for="cpf">CPF</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="nome" type="text" class="validate" value="<?php echo $func->getNome()?>">
+                    <input id="nome" type="text" class="validate" value="">
                     <label for="nome">Nome</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="login" type="text" class="validate" value="<?php echo $func->getLogin()?>">
+                    <input id="login" type="text" class="validate" value="">
                     <label for="login">Login</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="senha" type="password" class="validate" value="<?php echo $func->getSenha()?>">
+                    <input id="senha" type="password" class="validate" value="">
                     <label for="senha">Senha</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s4">
-                    <select>
+                    <select id="select">
                         <option value="" disabled>Escolha uma opção</option>
-                        <?php foreach ($setores as $setor): ?>
-                            <option value="<?php echo $setor->getId();?>" <?php if($setor->getNome() == $func->getSetor() ){ echo 'selected';} else {echo '';}?>  ><?php echo $setor->getNome(); ?> </option>
-                        <?php endforeach; ?>
                     </select>
                     <label>Setor</label>
                 </div>

@@ -5,7 +5,7 @@
     $_POST['cpf'] = '12345678912';
 
     $obj = new FuncionarioController();
-    $obj->listar();
+    $obj->atualizar();
 
 
     // $obj = new SetorController();

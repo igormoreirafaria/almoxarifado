@@ -19,9 +19,11 @@
 
         }
 
-        public function update() {
-            
-            echo "entra";
+        public function atualiza($cpfAtual, $cpf, $nome, $login, $senha, $setor) {
+            $funcionario = new Funcionario();
+            $funcionario->construtor($cpf, $nome, $login, $senha, $setor);
+            $func = $funcionario->editar($cpfAtual);
+            echo $func;
             
         }
 
@@ -29,6 +31,12 @@
             $funcionario = new Funcionario();
             $func = $funcionario->info($cpf);
             echo json_encode($func->jsonSerialize());
+        }
+
+        public function validaLogin(){
+            $funcionario = new Funcionario();
+            $func = $funcionario->validaLogin();
+            echo json_encode($func);
         }
     }
 ?>
