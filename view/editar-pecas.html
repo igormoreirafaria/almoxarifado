@@ -13,7 +13,6 @@
         <link type="text/css" rel="stylesheet" href="/almoxarifado/css/meucss.css"/>
         <script>
             $(document).ready(function(){
-                $('select').formSelect();
 
                 $('#sidenav').load("../componentes/sidenav.html");
                 
@@ -24,17 +23,64 @@
                         return obj;
                     }, {});                    
                 }
-                let id = 
+                let setor = 0;
 
+
+                
                 $.ajax({
                     url: '../handler/pecaHandler.php',
                     method: 'post',
                     data:{action: 'infopeca', id: query.id},
                     success: function(peca) {
+                        peca = JSON.parse(peca);
 
-
+                        
+                        
+                        $('#id').val(peca.id);
+                        $('#upc').val(peca.upc);
+                        $('#descricao').val(peca.descricao);
+                        
+                        
                     }
                 });
+    
+
+
+                $("#salvar").click(function(){
+
+
+
+                    let id = $('#id').val();
+                    let upc = $('#upc').val();
+                    let descricao = $('#descricao').val();
+                    if(id == ''){
+                        $('#id').addClass('invalid');
+                    }else
+                    if(upc == ''){
+                        $('#upc').addClass('invalid');
+                    }else
+                    if(descricao == ''){
+                        $('#descricao').addClass('invalid');
+                    }else{
+                        $.ajax({
+                            url: '../handler/pecaHandler.php',
+                            method: 'post',
+                            data:{
+                                action: 'atualizapeca',
+                                idAtual: query.id,
+                                id: id,
+                                upc: upc,
+                                descriao: descricao,
+                            },
+                            success: function(data) {
+                                location = `/almoxarifado/view/editar-peca.html?id=${id}`;
+                            }
+                        });
+                    }
+
+
+                })
+                
             });
         
         
@@ -49,28 +95,28 @@
         <div class="container content z-depth-3">
             <div class="row">
                 <div class="col s6">
-                    <h4>Editando dados de <?php echo $peca->getDescricao()?> </h4>
+                    <h4>Editando dados de <span id="nomeTitulo"></span>  </h4>
                 </div>
             </div>
             <div class="row">
                 <div class="col s1">
-                    <button>Salvar</button>
+                    <a class="waves-effect waves-light btn" id="salvar">Salvar</a>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="cpf" type="text" class="validate" value="<?php echo $pec->getId() ?>">
-                    <label for="cpf">ID</label>
+                    <input id="id" type="text" class="validate" value="">
+                    <label for="id">ID</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="nome" type="text" class="validate" value="<?php echo $pec->getUpc()?>">
-                    <label for="nome">UPC</label>
+                    <input id="upc" type="text" class="validate" value="">
+                    <label for="upc">UPC</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="login" type="text" class="validate" value="<?php echo $pec->getDescricao()?>">
-                    <label for="login">DESCRIÇÃO</label>
+                    <input id="descricao" type="text" class="validate" value="">
+                    <label for="descricao">DESCRICAO</label>
                 </div>
             </div>
         </div>

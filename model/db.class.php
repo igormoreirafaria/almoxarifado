@@ -6,10 +6,10 @@ class db {
 	private $host = '127.0.0.1';
 
 	//usuario
-	private $usuario = 'phpmyadmin';
+	private $usuario = 'root';
 
 	//senha
-	private $senha = '123';
+	private $senha = 'root';
 
 	//banco de dados
 	private $database = 'almoxarifado';

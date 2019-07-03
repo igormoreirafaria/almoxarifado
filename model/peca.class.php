@@ -105,7 +105,7 @@ class Peca {
     $objDb = new db();
     $link = $objDb->conecta_mysql();
 
-    $sql = " SELECT * FROM PECA ";
+    $sql = " SELECT id, upc,descricao FROM PECAS WHERE id=1";
     //$sql = " SELECT f.id, f.upc as fnome, f.login, f.senha, s.nome as snome FROM PECA as f JOIN SETOR AS s on f.setor = s.id WHERE f.id = $id ";
 
 

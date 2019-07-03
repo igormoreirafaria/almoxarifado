@@ -25,10 +25,24 @@
             
         }
 
+        public function atualiza($idAtual, $upc, $descricao) {
+            $peca = new peca();
+            $peca->construtor($id, $upc, $descricao);
+            $func = $peca->editar($idAtual);
+            echo $func;
+            
+        }
+
         public function info($id) {
             $peca = new Peca();
             $pec = $peca->info($id);
             echo json_encode($pec->jsonSerialize());
+        }
+
+        public function validaLogin(){
+            $peca = new peca();
+            $func = $peca->validaLogin();
+            echo json_encode($func);
         }
     }
 ?>

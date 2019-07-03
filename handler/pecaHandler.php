@@ -17,7 +17,7 @@
                 listarPecas();
                 break;
             case 'infopeca' : 
-            infopeca();
+                infopeca();
                 break;
             
             
