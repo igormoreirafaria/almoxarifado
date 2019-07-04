@@ -67,10 +67,29 @@
                 <div class="row">
                     <div class="col s2 offset-s3">
                             <a class="color-white" href="/almoxarifado/view/listar-funcionarios.html">
-                                <div class="custom-but z-depth-3 center light-blue darken-3">
+                                <div class="custom-but z-depth-3 center light-blue darken-1">
                                     <i class="material-icons large">person</i>
                                     <br>
                                     <p>Funcionários</p>
+                                </div>
+                            </a>
+                            
+                    </div>
+                    <div class="col s2">
+                    <a class="color-white" href="/almoxarifado/view/listar-pecas.html">
+                                <div class="custom-but z-depth-3 center green darken-1 ">
+                                    <i class="material-icons large">build</i>
+                                    <br>
+                                    <p>Peças</p>
+                                </div>
+                            </a>
+                    </div>
+                    <div class="col s2">
+                    <a class="color-white" href="/almoxarifado/view/listar-setores.html">
+                                <div class="custom-but z-depth-3 center  yellow darken-1">
+                                    <i class="material-icons large">folder</i>
+                                    <br>
+                                    <p>Setores</p>
                                 </div>
                             </a>
                     </div>

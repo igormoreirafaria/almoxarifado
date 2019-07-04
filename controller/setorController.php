@@ -16,14 +16,28 @@
 
         }
 
-        public function update() {
-            
-            
-            
+        public function update($id, $nome, $gerente) {
+            $setor = new Setor();
+            $set = $setor->construtor($id, $nome, $gerente);
+            $set = $setor->editar();
+            echo json_encode($set);
         }
-
-        public function info() {
-           
+        public function create($nome, $gerente) {
+            $setor = new Setor();
+            $setor->setNome($nome);
+            $setor->setGerente($gerente);
+            $set = $setor->save();
+            echo json_encode($set);
+        }
+        public function info($id) {
+            $setor = new Setor();
+            $set = $setor->info($id);
+            echo json_encode($set->jsonSerialize());
+        }
+        public function delete($id) {
+            $setor = new Setor();
+            $set = $setor->remove($id);
+            echo json_encode($set);
         }
     }
 ?>

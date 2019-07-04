@@ -40,15 +40,57 @@
 
         public function save() {
             // logica para salvar setor no banco
+            require_once('db.class.php');
+            $objDb = new db();
+            $link = $objDb->conecta_mysql();
+
+            $nome = $this->getNome();
+            $gerente = $this->getGerente();
+
+            $sql = "INSERT INTO SETOR(nome, gerente) VALUES('$nome', '$gerente')";
+
+            $resultado = mysqli_query($link, $sql);
             
+            if($resultado){
+                echo "Sucesso";
+            } else {
+                echo 'Erro ao executar a query';
+            }
         }
                 
-        public function editar($cpf) {
+        public function editar() {
+            require_once('db.class.php');
+            $objDb = new db();
+            $link = $objDb->conecta_mysql();
+
+            $id = intVal($this->getId());
+            $nome = $this->getNome();
+            $gerente = $this->getGerente();
+
+            $sql = "UPDATE SETOR SET id = $id, nome = '$nome', gerente = '$gerente' WHERE id = '$id'";
+
+            $resultado = mysqli_query($link, $sql);
             
+            if($resultado){
+                echo "Sucesso";
+            } else {
+                echo 'Erro ao executar a query';
+            }
         }
                 
-        public function remove() {
+        public function remove($id) {
         // logica para remover setor do banco
+            require_once('db.class.php');
+            $objDb = new db();
+            $link = $objDb->conecta_mysql();
+        
+            $sql = "DELETE FROM SETOR WHERE id = $id";
+            $result = mysqli_query($link, $sql);
+            if($result){
+                echo "Sucesso";
+            }else{
+                echo 'Erro ao executar a query';
+            }
         }
         public function jsonSerialize(){
             return 
@@ -90,8 +132,26 @@
         public function info($id) {
             // logica para recuperar dados de um setor
         
+            require_once('db.class.php');
+            $objDb = new db();
+            $link = $objDb->conecta_mysql();
+        
+            $sql = " SELECT id, nome, gerente FROM SETOR WHERE id = $id ";
+        
+            $resultado = mysqli_query($link, $sql);
+        
+            if($resultado){
+              
+              $registro = mysqli_fetch_array($resultado, MYSQLI_ASSOC);
+              $set = new Setor();
+              $set->construtor($registro['id'], $registro['nome'], $registro['gerente']);
+              
+              return $set;
             
-        }
+            } else {
+              echo 'Erro ao executar a query';
+            }
+          }
 
 
     }

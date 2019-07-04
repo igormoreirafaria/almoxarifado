@@ -100,7 +100,7 @@ class Funcionario {
     $objDb = new db();
     $link = $objDb->conecta_mysql();
 
-    $sql = "DELETE FROM `FUNCIONARIOS` WHERE cpf = '$cpf'";
+    $sql = "DELETE FROM FUNCIONARIOS WHERE cpf = $cpf";
     $result = mysqli_query($link, $sql);
     if($result){
       return "Sucesso";

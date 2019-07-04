@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Tempo de geração: 03/07/2019 às 23:15
--- Versão do servidor: 10.1.38-MariaDB-0+deb9u1
--- Versão do PHP: 7.3.6
+-- Host: localhost:3306
+-- Generation Time: Jul 04, 2019 at 12:04 AM
+-- Server version: 5.7.26-0ubuntu0.19.04.1
+-- PHP Version: 7.2.19-0ubuntu0.19.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `almoxarifado`
+-- Database: `almoxarifado`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `CONTEM`
+-- Table structure for table `CONTEM`
 --
 
 CREATE TABLE `CONTEM` (
@@ -37,7 +35,7 @@ CREATE TABLE `CONTEM` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `CORREDOR`
+-- Table structure for table `CORREDOR`
 --
 
 CREATE TABLE `CORREDOR` (
@@ -45,7 +43,7 @@ CREATE TABLE `CORREDOR` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Despejando dados para a tabela `CORREDOR`
+-- Dumping data for table `CORREDOR`
 --
 
 INSERT INTO `CORREDOR` (`id`) VALUES
@@ -56,42 +54,40 @@ INSERT INTO `CORREDOR` (`id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `FUNCIONARIOS`
+-- Table structure for table `FUNCIONARIOS`
 --
 
 CREATE TABLE `FUNCIONARIOS` (
-  `cpf` varchar(256) NOT NULL,
-  `nome` varchar(256) NOT NULL,
-  `login` varchar(256) NOT NULL,
-  `senha` varchar(256) NOT NULL,
-  `setor` int(11) NOT NULL
+  `cpf` varchar(11) NOT NULL,
+  `nome` varchar(32) NOT NULL,
+  `login` varchar(32) NOT NULL,
+  `senha` varchar(32) NOT NULL,
+  `setor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Despejando dados para a tabela `FUNCIONARIOS`
+-- Dumping data for table `FUNCIONARIOS`
 --
 
 INSERT INTO `FUNCIONARIOS` (`cpf`, `nome`, `login`, `senha`, `setor`) VALUES
-('08900785648', 'Igor Moreira', 'igor', 'senhapadrao', 1),
-('12345678998', 'Matheus Reis', 'matheus', 'senhapadrao', 2),
-('32165498778', 'Luiz Felipe Fonseca', 'luzim', 'senhapadrao', 1),
-('45612378978', 'Antônio Alves', 'tonim', 'senhapadrao', 3),
-('75915324621', 'Valney Faria', 'valney', 'senhapadrao', 1);
+('05279894605', 'Lucas Marchisotti', 'lmarchisotti', 'senhapadrao', 3),
+('08900785648', 'Igor Moreira Faria', 'igor', 'senhapadrao', 1),
+('32321212312', 'Antonio', 'tonim', 'senhapadrao', 2);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `PECAS`
+-- Table structure for table `PECAS`
 --
 
 CREATE TABLE `PECAS` (
   `id` int(11) NOT NULL,
-  `upc` varchar(256) NOT NULL,
+  `upc` varchar(32) NOT NULL,
   `descricao` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Despejando dados para a tabela `PECAS`
+-- Dumping data for table `PECAS`
 --
 
 INSERT INTO `PECAS` (`id`, `upc`, `descricao`) VALUES
@@ -110,7 +106,7 @@ INSERT INTO `PECAS` (`id`, `upc`, `descricao`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `RECEPTACULO`
+-- Table structure for table `RECEPTACULO`
 --
 
 CREATE TABLE `RECEPTACULO` (
@@ -122,30 +118,30 @@ CREATE TABLE `RECEPTACULO` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `SETOR`
+-- Table structure for table `SETOR`
 --
 
 CREATE TABLE `SETOR` (
   `id` int(11) NOT NULL,
-  `nome` varchar(256) NOT NULL,
-  `gerente` varchar(256) NOT NULL
+  `nome` varchar(32) NOT NULL,
+  `gerente` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Despejando dados para a tabela `SETOR`
+-- Dumping data for table `SETOR`
 --
 
 INSERT INTO `SETOR` (`id`, `nome`, `gerente`) VALUES
 (1, 'Recepção', '08900785648'),
-(2, 'Compras', '12345678998'),
-(3, 'Saída', '45612378978');
+(2, 'Compras', '32321212312'),
+(3, 'Saída', '05279894605');
 
 --
--- Índices de tabelas apagadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices de tabela `CONTEM`
+-- Indexes for table `CONTEM`
 --
 ALTER TABLE `CONTEM`
   ADD KEY `receptaculo` (`receptaculo`),
@@ -153,65 +149,78 @@ ALTER TABLE `CONTEM`
   ADD KEY `pecas` (`pecas`);
 
 --
--- Índices de tabela `CORREDOR`
+-- Indexes for table `CORREDOR`
 --
 ALTER TABLE `CORREDOR`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`id`);
 
 --
--- Índices de tabela `FUNCIONARIOS`
+-- Indexes for table `FUNCIONARIOS`
 --
 ALTER TABLE `FUNCIONARIOS`
-  ADD PRIMARY KEY (`cpf`);
+  ADD PRIMARY KEY (`cpf`),
+  ADD KEY `setor` (`setor`);
 
 --
--- Índices de tabela `PECAS`
+-- Indexes for table `PECAS`
 --
 ALTER TABLE `PECAS`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `RECEPTACULO`
+-- Indexes for table `RECEPTACULO`
 --
 ALTER TABLE `RECEPTACULO`
   ADD PRIMARY KEY (`id`),
   ADD KEY `corredor` (`corredor`);
 
 --
--- Índices de tabela `SETOR`
+-- Indexes for table `SETOR`
 --
 ALTER TABLE `SETOR`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `gerente` (`gerente`);
 
 --
--- AUTO_INCREMENT de tabelas apagadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `CORREDOR`
+-- AUTO_INCREMENT for table `CORREDOR`
 --
 ALTER TABLE `CORREDOR`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
--- AUTO_INCREMENT de tabela `PECAS`
+-- AUTO_INCREMENT for table `PECAS`
 --
 ALTER TABLE `PECAS`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
 --
--- AUTO_INCREMENT de tabela `RECEPTACULO`
+-- AUTO_INCREMENT for table `RECEPTACULO`
 --
 ALTER TABLE `RECEPTACULO`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
--- AUTO_INCREMENT de tabela `SETOR`
+-- AUTO_INCREMENT for table `SETOR`
 --
 ALTER TABLE `SETOR`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `FUNCIONARIOS`
+--
+ALTER TABLE `FUNCIONARIOS`
+  ADD CONSTRAINT `FUNCIONARIOS_ibfk_1` FOREIGN KEY (`setor`) REFERENCES `SETOR` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `SETOR`
+--
+ALTER TABLE `SETOR`
+  ADD CONSTRAINT `SETOR_ibfk_1` FOREIGN KEY (`gerente`) REFERENCES `FUNCIONARIOS` (`cpf`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
