@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Relatório Pecas | Almoxarifado</title>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="/almoxarifado/css/materialize.min.css"  media="screen,projection"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link type="text/css" rel="stylesheet" href="/almoxarifado/css/meucss.css"/>
+
+
+        <script>
+        
+            $(document).ready(function(){
+                
+                $('#sidenav').load("../componentes/sidenav.html");
+
+                $.ajax({
+                    url: '../handler/pecaHandler.php',
+                    method: 'post',
+                    data:{action: 'listarPecas'},
+                    success: function(pecas) {
+                        pecas = JSON.parse(pecas);
+                        for(let i = 0; i < Object.keys(pecas).length; i++){
+                            
+                            $.ajax({
+                                url: '../handler/pecaHandler.php',
+                                method: 'post',
+                                data:{action: 'getLocal', id: pecas[i].id},
+                                success: function(local) {
+                                    local = JSON.parse(local);
+                                    
+                                    $("#result").append(`<tr>
+                                        <td>${pecas[i].upc}</td>
+                                        <td>${pecas[i].descricao}</td>
+                                        <td>${local.corredor}-${local.receptaculo}</td>
+                                        </tr>`
+                                    );
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        </script>
+
+    </head>
+
+    <body>
+
+
+
+        <div id="sidenav"></div>
+        <div class="container content z-depth-3">
+            
+            <div class="row">
+                <div class="table">
+                    <h3>Relatório Peças</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>UPC</th>
+                                <th>DESCRIÇÃO</th>
+                                <th>LOCALIZAÇÃO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="result">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--JavaScript at end of body for optimized loading-->
+        <script type="text/javascript" src="/almoxarifado/js/materialize.min.js"></script>
+    </body>
+</html>

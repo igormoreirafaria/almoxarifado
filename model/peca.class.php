@@ -34,20 +34,40 @@ class Peca {
   public function setDescricao($descricao){
     $this->descricao = $descricao;
   }
+  
+
+  public function getLocal($id){
+    require_once('db.class.php');
+    $objDb = new db();
+    $link = $objDb->conecta_mysql();
+
+    $sql = "SELECT c.id AS cid, r.id AS rid FROM CORREDOR AS c JOIN RECEPTACULO AS r on c.id = r.corredor JOIN CONTEM AS contem on contem.receptaculo = r.id JOIN PECAS AS p ON p.id = contem.pecas WHERE p.id = $id;";
+
+    $result = mysqli_query($link, $sql);
+    if($result){
       
+      $registro = mysqli_fetch_array($result, MYSQLI_ASSOC);
+      
+      $local = array('corredor' => $registro['cid'], 'receptaculo' => $registro['rid']);  
+      return $local;
+      
+    } else {
+      echo 'Erro ao executar a query';
+    }
+  }  
+
   public function editar($idAtual) {
   // logica para atualizar cliente no banco
     require_once('db.class.php');
     $objDb = new db();
     $link = $objDb->conecta_mysql();
-    $id = $this->getId();
     $upc = $this->getUpc();
     $descricao = $this->getDescricao();
 
 
 
     
-    $sql = "UPDATE PECAS SET id = '$id', upc ='$upc', descricao = '$descricao' WHERE id = $idAtual";
+    $sql = "UPDATE PECAS SET upc ='$upc', descricao = '$descricao' WHERE id = $idAtual";
     $result = mysqli_query($link, $sql);
     if($result){
       echo "Sucesso";
@@ -76,14 +96,14 @@ class Peca {
       require_once('db.class.php');
       $objDb = new db();
       $link = $objDb->conecta_mysql();
-      $id = $this->getId();
       $upc = $this->getUpc();
       $descricao = $this->getDescricao();
-      
-      $sql = "INSERT INTO PECAS(id, upc, descricao) VALUES('$id', '$upc', '$descricao')";
+      echo "aaaaa $upc";
+      $sql = "INSERT INTO PECAS(upc, descricao) VALUES('$upc', '$descricao')";
       $result = mysqli_query($link, $sql);
 
       if($result){
+        
         return "Sucesso";
       }else{
         echo 'Erro ao executar a query';

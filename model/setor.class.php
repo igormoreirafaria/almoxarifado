@@ -128,7 +128,31 @@
                 echo 'Erro ao executar a query';
             }
         }
-          
+        public function contar() {
+            
+    
+                require_once('db.class.php');
+                $objDb = new db();
+                $link = $objDb->conecta_mysql();
+                
+                $sql = "SELECT S.id, count(F.cpf) FROM SETOR AS S JOIN FUNCIONARIOS AS F ON S.id = F.setor GROUP BY S.id ";
+    
+                $resultado = mysqli_query($link, $sql);
+                
+                if($resultado){
+                    
+                    
+                    $aux = [];
+                    while($registro = mysqli_fetch_array($resultado, MYSQLI_ASSOC)){
+                        $res = array('setor' => $registro['id'], 'numero'=> $registro['count(F.cpf)']);
+                        array_push($aux, $res);
+                    }
+                    return $aux;
+                
+                } else {
+                    echo 'Erro ao executar a query';
+                }
+            }
         public function info($id) {
             // logica para recuperar dados de um setor
         

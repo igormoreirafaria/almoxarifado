@@ -17,33 +17,54 @@
         
             $(document).ready(function(){
                 $('#sidenav').load("../componentes/sidenav.html");
+
+                a = $.ajax({
+                    url: '../handler/receptaculoHandler.php',
+                    method: 'post',
+                    data:{action: 'listarReceptaculo'},
+                    success: function(receptaculos) {
+                        receptaculos = JSON.parse(receptaculos);
+                        $("#receptaculo").append(`<option value=''>Escolha uma opção</option>`);  
+                        for(r of receptaculos){
+                            $("#receptaculo").append(`<option value='${r.corredor}-${r.id}'>${r.corredor}-${r.id}</option>`);  
+                        }
+                        $('#receptaculo').formSelect();
+                    }
+                });
+
+
+
+
+
+
                 $("#salvar").click(function(){
 
-                    
-
-                    let id = $('#id').val();
                     let upc = $('#upc').val();
                     let descricao = $('#descricao').val();
-                    if(id == ''){
-                        $('#id').addClass('invalid');
-                    }else
+                    let corredor = parseInt($('#receptaculo').val().split('-')[0]);
+                    let receptaculo = parseInt($('#receptaculo').val().split('-')[1]);
+
+
                     if(upc == ''){
                         $('#upc').addClass('invalid');
                     }else
                     if(descricao == ''){
                         $('#descricao').addClass('invalid');
+                    }else if(corredor == '' && receptaculo == ''){
+                        $('#receptaculo').addClass('invalid');
                     }else{
                         $.ajax({
                             url: '../handler/pecaHandler.php',
                             method: 'post',
                             data:{
                                 action: 'create',
-                                id: id,
                                 upc: upc,
                                 descricao: descricao,
+                                corredor: corredor,
+                                receptaculo: receptaculo
                             },
                             success: function(data) {
-                                location = `/almoxarifado/view/editar-pecas.html?id=${id}`;
+                                location = `/almoxarifado/view/listar-pecas.html`;
                             }
                         });
                     }
@@ -72,24 +93,22 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="id" type="text" class="validate" value="">
-                        <label for="id">ID</label>
-                    </div>
-                    <div class="input-field col s6">
                         <input id="upc" type="text" class="validate" value="">
                         <label for="upc">UPC</label>
                     </div>
-                </div>
-                <div class="row">
                     <div class="input-field col s6">
                         <input id="descricao" type="text" class="validate" value="">
                         <label for="descricao">DESCRIÇÃO</label>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select id="receptaculo">
+                        </select>
+                        <label>Receptáculo</label>
+                    </div>
+                </div>
             </div>
-
-
-
         <!--JavaScript at end of body for optimized loading-->
         <script type="text/javascript" src="/almoxarifado/js/materialize.min.js"></script>
     </body>

@@ -23,44 +23,71 @@
                         return obj;
                     }, {});                    
                 }
-                let setor = 0;
+                
+
+                a = $.ajax({
+                    url: '../handler/receptaculoHandler.php',
+                    method: 'post',
+                    data:{action: 'listarReceptaculo'},
+                    success: function(receptaculos) {
+                        receptaculos = JSON.parse(receptaculos);
+                        $("#receptaculo").append(`<option value=''>Escolha uma opção</option>`);  
+                        for(r of receptaculos){
+                            $("#receptaculo").append(`<option value='${r.corredor}-${r.id}'>${r.corredor}-${r.id}</option>`);  
+                        }
+                        $('#receptaculo').formSelect();
+                    }
+                });
+
+
+                $.when(a).done(function() {
+                    $.ajax({
+                        url: '../handler/pecaHandler.php',
+                        method: 'post',
+                        data:{action: 'infopeca', id: query.id},
+                        success: function(peca) {
+                            peca = JSON.parse(peca);
+
+                            $('#upc').val(peca.upc);
+                            $('#descricao').val(peca.descricao);
+                            
+                            $.ajax({
+                                url: '../handler/pecaHandler.php',
+                                method: 'post',
+                                data:{action: 'getLocal', id: peca.id},
+                                success: function(local) {
+                                    local = JSON.parse(local);
+                                    $('#upc').val(peca.upc);
+                                    $('#descricao').val(peca.descricao);
+                                    $("#receptaculo").val(`${local.corredor}-${local.receptaculo}`);
+                                    $('#receptaculo').formSelect();
+                                }
+                            });
+                            
+                        }
+                    });
+                });
 
 
                 
-                $.ajax({
-                    url: '../handler/pecaHandler.php',
-                    method: 'post',
-                    data:{action: 'infopeca', id: query.id},
-                    success: function(peca) {
-                        peca = JSON.parse(peca);
-
-                        
-                        
-                        $('#id').val(peca.id);
-                        $('#upc').val(peca.upc);
-                        $('#descricao').val(peca.descricao);
-                        
-                        
-                    }
-                });
     
 
 
                 $("#salvar").click(function(){
 
 
-
-                    let id = $('#id').val();
+                    
                     let upc = $('#upc').val();
                     let descricao = $('#descricao').val();
-                    if(id == ''){
-                        $('#id').addClass('invalid');
-                    }else
+                    let corredor = parseInt($('#receptaculo').val().split('-')[0]);
+                    let receptaculo = parseInt($('#receptaculo').val().split('-')[1]);
                     if(upc == ''){
                         $('#upc').addClass('invalid');
                     }else
                     if(descricao == ''){
                         $('#descricao').addClass('invalid');
+                    }else if(corredor == '' && receptaculo == ''){
+                        $('#receptaculo').addClass('invalid');
                     }else{
                         $.ajax({
                             url: '../handler/pecaHandler.php',
@@ -68,12 +95,13 @@
                             data:{
                                 action: 'atualizapeca',
                                 idAtual: query.id,
-                                id: id,
                                 upc: upc,
                                 descricao: descricao,
+                                corredor: corredor,
+                                receptaculo: receptaculo
                             },
                             success: function(data) {
-                                location = `/almoxarifado/view/editar-pecas.html?id=${id}`;
+                                location = `/almoxarifado/view/relatorio-pecas.html`;
                             }
                         });
                     }
@@ -105,18 +133,19 @@
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="id" type="text" class="validate" value="">
-                    <label for="id">ID</label>
-                </div>
-                <div class="input-field col s6">
                     <input id="upc" type="text" class="validate" value="">
                     <label for="upc">UPC</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="descricao" type="text" class="validate" value="">
+                    <label for="descricao">DESCRICAO</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="descricao" type="text" class="validate" value="">
-                    <label for="descricao">DESCRICAO</label>
+                    <select id="receptaculo">
+                    </select>
+                    <label>Receptáculo</label>
                 </div>
             </div>
         </div>

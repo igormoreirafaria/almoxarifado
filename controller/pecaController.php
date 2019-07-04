@@ -19,11 +19,16 @@
 
         }
         
-
-        public function atualiza($idAtual, $id , $upc, $descricao) {
-            $peca = new peca();
-            $peca->construtor($id, $upc, $descricao);
-            $func = $peca->editar   ($idAtual);
+        public function local($id){
+            $peca = new Peca();
+            $local = $peca->getLocal($id);
+            echo json_encode($local);
+        }
+        public function atualiza($idAtual , $upc, $descricao) {
+            $peca = new Peca();
+            $peca->setUpc($upc);
+            $peca->setDescricao($descricao);
+            $func = $peca->editar($idAtual);
             echo $func;
             
         }
@@ -45,9 +50,10 @@
             $pec = $peca->remove($id);
             echo json_encode($pec);
         }
-        public function create($id, $upc, $descricao) {
+        public function create($upc, $descricao) {
             $peca = new Peca();
-            $peca->construtor($id, $upc, $descricao);
+            $peca->setUpc($upc);
+            $peca->setDescricao($descricao);
             $pec = $peca->save();
             echo json_encode($pec); 
         }

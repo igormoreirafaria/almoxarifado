@@ -11,7 +11,7 @@
     $objDb = new db();
 	$link = $objDb->conecta_mysql();
 
-    $id_usuario = $_SESSION['id_usuario'];
+    $id_usuario = $_SESSION['cpf'];
     $setor = $_SESSION['setor'];
 
 	//--recupera setor nome

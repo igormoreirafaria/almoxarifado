@@ -15,7 +15,14 @@
             echo json_encode($res);
 
         }
+        public function contar() {
+            $setor = new Setor();
+            
+            $res = $setor->contar();
+            
+            echo json_encode($res);
 
+        }
         public function update($id, $nome, $gerente) {
             $setor = new Setor();
             $set = $setor->construtor($id, $nome, $gerente);
@@ -39,5 +46,7 @@
             $set = $setor->remove($id);
             echo json_encode($set);
         }
+
+
     }
 ?>
